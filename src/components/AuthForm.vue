@@ -51,7 +51,8 @@ const submitForm = (e) => {
                 placeholder="name@company.com" required="">
             </div>
             
-            <div v-if="mode === 'register'">
+            <div class="flex gap-4">
+              <div v-if="mode === 'register'">
               <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
               <input v-model="form.address" type="text" name="address" id="address"
                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -63,6 +64,7 @@ const submitForm = (e) => {
               <input v-model="form.phone" type="tel" name="phone" id="phone"
                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required="">
+            </div>
             </div>
             
             <div>
@@ -94,11 +96,15 @@ const submitForm = (e) => {
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
               <span v-if="mode === 'login'">
                 Don't have an account yet? 
-                <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
+                <router-link to="/register" class="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                  Sign up
+                </router-link>
               </span>
               <span v-else>
                 Already have an account? 
-                <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign in</a>
+                <router-link to="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                  Sign in
+                </router-link>
               </span>
             </p>
           </form>
