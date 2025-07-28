@@ -9,26 +9,40 @@ const toast = useToast();
 
 const router = useRouter()
 const { login } = useAuth()
-
+const loading = ref(false)
 const form = ref({
     email: '',
     password: ''
 })
 
 const handleLogin = async () => {
-    const result = await login({
-        email: form.value.email,
-        password: form.value.password
-    })
+    loading.value = true // ✅ Bắt đầu loading
     
-    if (result.success) {
-        router.push('/')
-    } else {
-        toast.error('Login failed: ' + result.message)
+    try {
+        const result = await login({
+            email: form.value.email,
+            password: form.value.password
+        })
+        
+        if (result.success) {
+            router.push('/')
+        } else {
+            toast.error('Login failed: ' + result.message)
+        }
+    } catch (error) {
+        toast.error('Login failed: ' + error.message)
+    } finally {
+        loading.value = false // ✅ Kết thúc loading
     }
 }
 </script>
 
 <template>
-    <AuthForm title="Login" mode="login" :form="form" @submit="handleLogin" />
+    <AuthForm 
+        title="Login" 
+        mode="login" 
+        :loading="loading" 
+        :form="form" 
+        @submit="handleLogin" 
+    />
 </template>

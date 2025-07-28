@@ -1,6 +1,9 @@
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import { ENV } from '@/config/env'
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 const isLoggedIn = ref(!!localStorage.getItem("token"));
 const user = ref(null);
@@ -10,7 +13,7 @@ if (storedUser) {
     try {
         user.value = JSON.parse(storedUser)
     } catch (e) {
-        console.error('Error parsing stored user:', e)
+        toast.error('Error parsing stored user:', e)
     }
 }
 
@@ -24,7 +27,7 @@ export const useAuth = () => {
             try {
                 return JSON.parse(storedUser)
             } catch (e) {
-                console.error('Error parsing stored user:', e)
+                toast.error('Error parsing stored user:', e)
                 return null
             }
         }
@@ -46,9 +49,9 @@ export const useAuth = () => {
                 }
 
                 // Lưu thông tin user
-                if (data.user) {
-                    localStorage.setItem('user', JSON.stringify(data.user))
-                    user.value = data.user
+                if (data) {
+                    localStorage.setItem('user', JSON.stringify(data))
+                    user.value = data
                 }
 
                 // Cập nhật state
@@ -59,7 +62,7 @@ export const useAuth = () => {
                 return { success: false, message: 'No token received' }
             }
         } catch (error) {
-            console.error('Login error:', error)
+            toast.error('Login error:', error)
             return {
                 success: false,
                 message: error.response?.data?.message || error.message
@@ -95,7 +98,7 @@ export const useAuth = () => {
                 return { success: false, message: 'No token received' }
             }
         } catch (error) {
-            console.error('Registration error:', error)
+            toast.error('Registration error:', error)
             return {
                 success: false,
                 message: error.response?.data?.message || error.message
@@ -151,7 +154,7 @@ export const useAuth = () => {
     const refreshAccessToken = async () => {
         const refreshToken = localStorage.getItem('refresh_token')
         if (!refreshToken) {
-            console.warn('No refresh token found')
+            toast.warn('No refresh token found')
             logout()
             return null
         }
@@ -164,12 +167,12 @@ export const useAuth = () => {
                 localStorage.setItem('token', newAccessToken)
                 return newAccessToken
             } else {
-                console.error('Failed to refresh token')
+                toast.error('Failed to refresh token')
                 logout()
                 return null
             }
         } catch (error) {
-            console.error('Refresh token failed:', error.response?.data || error.message)
+            toast.error('Refresh token failed:', error.response?.data || error.message)
             logout()
             return null
         }
