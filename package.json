@@ -11,6 +11,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.0.0",
     "axios": "^1.10.0",
     "flowbite": "^3.1.2",
     "vue": "^3.5.17",

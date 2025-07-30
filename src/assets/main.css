@@ -1,2 +1,8 @@
 @import 'tailwindcss';
 @import "flowbite/src/themes/default";
+
+* {
+    font-family: "Delius", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
