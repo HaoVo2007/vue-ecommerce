@@ -1,3 +1,4 @@
+import DetailProduct from '@/views/DetailProduct.vue'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: Register,
+    },
+        {
+      path: '/product/:id',
+      name: 'product',
+      component: DetailProduct,
     },
   ],
 })

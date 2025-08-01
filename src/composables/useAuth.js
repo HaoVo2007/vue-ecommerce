@@ -8,30 +8,11 @@ const toast = useToast();
 const isLoggedIn = ref(!!localStorage.getItem("token"));
 const user = ref(null);
 
-const storedUser = localStorage.getItem('user')
-if (storedUser) {
-    try {
-        user.value = JSON.parse(storedUser)
-    } catch (e) {
-        toast.error('Error parsing stored user:', e)
-    }
-}
-
 export const useAuth = () => {
     const userInfo = computed(() => {
         if (user.value) {
             return user.value
         }
-        const storedUser = localStorage.getItem('user')
-        if (storedUser) {
-            try {
-                return JSON.parse(storedUser)
-            } catch (e) {
-                toast.error('Error parsing stored user:', e)
-                return null
-            }
-        }
-        return null
     })
 
     const login = async (credentials) => {

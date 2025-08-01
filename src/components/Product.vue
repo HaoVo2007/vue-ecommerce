@@ -9,24 +9,22 @@ const props = defineProps({
     <div
         class="max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
         <div class="relative group">
-            <img
-                :src="product.main_image"
-                :alt="product.product_name"
-                class="h-64 w-full object-cover"
-            />
+            <img :src="product.main_image" :alt="product.product_name" class="h-64 w-full object-cover" />
 
             <div
                 class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <button
-                    class="bg-white text-gray-800 font-semibold py-3 px-6 rounded-full hover:bg-gray-100 transform hover:scale-105 transition-all duration-200">
-                    View Details
-                </button>
+                <router-link :to="`/product/${product.id}`">
+                    <button
+                        class="bg-white text-gray-800 font-semibold py-3 px-6 rounded-full hover:bg-gray-100 transform hover:scale-105 transition-all duration-200">
+                        View Details
+                    </button>
+                </router-link>
             </div>
         </div>
 
         <div class="p-6">
             <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
-                
+
             </h3>
 
             <p class="text-sm text-gray-500 mb-3 uppercase tracking-wide">

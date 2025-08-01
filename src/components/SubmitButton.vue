@@ -1,13 +1,16 @@
 <script setup>
-const props = defineProps({
-    loading: { type: Boolean, default: false },
-    text: { type: String, default: 'Submit' }
-})
+  const props = defineProps({
+      loading: { type: Boolean, default: false },
+      text: { type: String, default: 'Submit' },
+  })
+  const emit = defineEmits(['click'])
 </script>
 
 <template>
   <button
     :disabled="loading"
+    :class="$attrs.class"
+    @click="emit('click')"
     type="submit"
     class="w-full inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium rounded-lg focus:outline-none transition-colors
       text-white

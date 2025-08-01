@@ -44,7 +44,9 @@ onMounted(() => {
             </div>
 
             <div v-if="type == 'product'" class="flex items-center justify-center">
-                <Skeleton v-if="loading" />
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" v-if="loading">
+                    <Skeleton v-for="n in 4" :key="n" />
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" v-else>
                     <Product v-for="product in products" :key="product.id" :product="product" />
                 </div>
