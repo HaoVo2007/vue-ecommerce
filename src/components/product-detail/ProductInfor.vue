@@ -1,14 +1,13 @@
 <script setup>
-import Rating from './Rating.vue'
+import Rating from '@/components/Rating.vue'
+import SelectSize from '@/components/SelectSize.vue'
 import { ref } from 'vue'
-import SelectSize from './SelectSize.vue';
 const props = defineProps({
     product: Object
 })
 const selectSize = ref(null)
 const handleSelectSize = (size) => {
     selectSize.value = size
-    console.log(selectSize.value)
 }
 </script>
 
@@ -39,26 +38,22 @@ const handleSelectSize = (size) => {
         <!-- Size Selection -->
         <div>
             <h3 class="text-lg font-semibold mb-3">Select size:</h3>
-            <SelectSize :size="product.sizes" @selectSize="handleSelectSize" />
+            <SelectSize :size="product.sizes" :selectedSize="selectSize" @selectSize="handleSelectSize" />
         </div>
 
         <!-- Hiển thị số lượng còn lại -->
-        <div v-if="selectedSize" class="text-gray-700">
-            Số lượng còn lại: <strong>{{ selectedSize.quantity }}</strong>
+        <div v-if="selectSize" class="text-gray-700">
+            Remaining quantity: <strong>{{ selectSize.stock }}</strong>
         </div>
 
         <!-- Product Features -->
         <div class="bg-blue-50 p-4 rounded-lg">
-            <h3 class="font-semibold text-gray-900 mb-3">Đặc điểm nổi bật:</h3>
+            <h3 class="font-semibold text-gray-900 mb-3">Highlights:</h3>
             <ul class="space-y-2 text-gray-700">
-                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Công nghệ Flyknit
-                    siêu nhẹ</li>
-                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Đế đinh AG phù hợp
-                    sân cỏ tự nhiên</li>
-                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Thiết kế aerodynamic
-                    tăng tốc độ</li>
-                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Chống thấm nước IPX4
-                </li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Ultra-light Flyknit technology</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> AG studs suitable for natural grass pitches</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Aerodynamic design increases speed</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> IPX4 waterproof</li>
             </ul>
         </div>
 
@@ -66,15 +61,15 @@ const handleSelectSize = (size) => {
         <div class="space-y-3">
             <button
                 class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
-                <i class="fas fa-shopping-cart mr-2"></i>Thêm vào giỏ hàng
+                <i class="fas fa-shopping-cart mr-2"></i>Add to cart
             </button>
             <button
                 class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
-                Mua ngay
+                Buy now
             </button>
             <button
                 class="w-full border-2 border-gray-300 hover:border-red-500 text-gray-700 hover:text-red-500 font-semibold py-3 px-6 rounded-lg transition-colors">
-                <i class="far fa-heart mr-2"></i>Yêu thích
+                <i class="far fa-heart mr-2"></i>Favourite
             </button>
         </div>
     </div>

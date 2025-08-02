@@ -24,7 +24,7 @@ const handleImageClick = (image) => {
 <template>
     <div class="space-y-4">
         <!-- Main Image -->
-        <div class="zoom-container bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="p-8 rounded-t-lg shadow">
             <img id="mainImage" :src="selectedImage" :alt="product.product_name" class="w-full h-125 object-cover">
         </div>
 

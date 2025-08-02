@@ -18,7 +18,7 @@ const emptyStars = 5 - fullStars - (halfStar ? 1 : 0)
       ></i>
 
       <i
-        v-if="hasHalfStar"
+        v-if="halfStar"
         class="fas fa-star-half-alt text-yellow-400 text-sm"
       ></i>
 
@@ -28,7 +28,5 @@ const emptyStars = 5 - fullStars - (halfStar ? 1 : 0)
         class="far fa-star text-yellow-400 text-sm"
       ></i>
     </div>
-
-    <span class="text-sm font-medium text-gray-700">{{ rating.toFixed(1) }}</span>
   </div>
 </template>
