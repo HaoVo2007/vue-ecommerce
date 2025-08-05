@@ -19,7 +19,7 @@ const handleSelectSize = (size) => {
         </div>
 
         <div class="flex items-center space-x-2">
-            <Rating :rating="product.rating" />
+            <Rating :rating="product.rating_average" />
             <span class="text-sm text-gray-500">({{ product.reviews_count }} reviews)</span>
         </div>
 

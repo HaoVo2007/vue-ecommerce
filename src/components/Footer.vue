@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-gray-900 text-white">
+    <footer class="px-10 py-5 bg-gray-900 text-white">
         <!-- Main Footer Content -->
         <div class="py-16">
             <div class="container mx-auto px-4">

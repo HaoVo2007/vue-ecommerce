@@ -51,7 +51,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="sm:px-70 sm:py-20 p-5">
+    <div class="sm:px-50 sm:py-20 p-5">
         <div v-if="loading" class="text-center py-8">
             <p>Loading...</p>
         </div>

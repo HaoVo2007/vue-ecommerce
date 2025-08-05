@@ -41,14 +41,14 @@ const handleLogout = async () => {
             <div class="flex items-center justify-between">
 
                 <div class="flex items-center space-x-8">
-                    <div class="shrink-0">
-                        <a href="#" title="" class="">
-                            <img class="block w-auto h-8 dark:hidden"
-                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/logo-full.svg" alt="">
-                            <img class="hidden w-auto h-8 dark:block"
-                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/logo-full-dark.svg" alt="">
-                        </a>
-                    </div>
+                    <router-link to="/">
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-futbol text-white text-xl"></i>
+                            </div>
+                        </div>
+                    </router-link>
 
                     <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
                         <li>
@@ -315,7 +315,7 @@ const handleLogout = async () => {
 
                             <router-link to="/register"
                                 class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                                Sign up 
+                                Sign up
                             </router-link>
                         </div>
                     </div>
@@ -360,14 +360,6 @@ const handleLogout = async () => {
             </div>
         </div>
     </nav>
-    <ConfirmModal
-        :show="showModal"
-        :loading="loading"
-        title="Confirm Logout"
-        message="Are you sure you want to logout?"
-        confirmText="Logout"
-        cancelText="Cancel"
-        @confirm="handleLogout"
-        @cancel="closeModal"
-    />
+    <ConfirmModal :show="showModal" :loading="loading" title="Confirm Logout" message="Are you sure you want to logout?"
+        confirmText="Logout" cancelText="Cancel" @confirm="handleLogout" @cancel="closeModal" />
 </template>

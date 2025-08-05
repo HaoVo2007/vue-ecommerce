@@ -42,7 +42,7 @@ const show = ref(false)
             </div>
             <div class="space-y-2">
                 <div v-for="item in reviews.percent" :key="item.rating" class="flex items-center space-x-2">
-                    <span class="text-sm w-8">{{ item.rating }}⭐</span>
+                    <span class="text-sm w-8">{{ item.rating }} <i class="fas fa-star text-yellow-400"></i></span>
                     <div class="flex-1 bg-gray-200 rounded-full h-2">
                         <div class="bg-yellow-400 h-2 rounded-full" :style="{ width: item.percent }"></div>
                     </div>
