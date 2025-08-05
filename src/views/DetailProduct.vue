@@ -11,7 +11,6 @@ import ProductDescription from '@/components/product-detail/ProductDescription.v
 import ProductReview from '@/components/product-detail/ProductReview.vue';
 
 const productID = useRoute().params.id
-
 const product = ref({})
 const reviews = ref([])
 const relatedProducts = ref([])
@@ -37,7 +36,7 @@ const fetchReviews = async () => {
         const response = await axios.get(`${ENV.API_BASE_URL}/api/v1/review?product_id=${productID}`)
         const json = response.data
         if (json.status_code === 200) {
-            reviews.value = json.data.reviews
+            reviews.value = json.data
         }
     } catch (error) {
         console.error('Error fetching reviews:', error)
@@ -63,7 +62,7 @@ onMounted(() => {
             </div>
             <ProductDescription :product="product" />
 
-            <ProductReview :reviews="reviews" :product="product" />
+            <ProductReview @review:added="fetchReviews" :reviews="reviews" :product="product" />
     
         </div>
     </div>

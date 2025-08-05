@@ -56,14 +56,14 @@
 
 <style scoped>
 .bg-stadium {
-    background-image: url('/image/sections/stadium-4760441_960_720.jpg');
+    background-image: url('/image/sections/indoor-soccer-4813883_1280.jpg');
 }
 
 .bg-football {
-    background-image: url('/image/sections/football-1486353_1280.jpg');
+    background-image: url('/image/sections/football-3024154_1280.jpg');
 }
 
 .bg-grass {
-    background-image: url('/image/sections/grass-2616911_1280.jpg');
+    background-image: url('/image/sections/soccer-1331838_1280.jpg');
 }
 </style>
