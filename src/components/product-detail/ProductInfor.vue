@@ -2,6 +2,7 @@
 import Rating from '@/components/Rating.vue'
 import SelectSize from '@/components/SelectSize.vue'
 import { ref } from 'vue'
+import AddToCart from './AddToCart.vue'
 const props = defineProps({
     product: Object
 })
@@ -59,10 +60,7 @@ const handleSelectSize = (size) => {
 
         <!-- Action Buttons -->
         <div class="space-y-3">
-            <button
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
-                <i class="fas fa-shopping-cart mr-2"></i>Add to cart
-            </button>
+            <AddToCart :product="product" :user="user" :selectedSize="selectSize" />
             <button
                 class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
                 Buy now
