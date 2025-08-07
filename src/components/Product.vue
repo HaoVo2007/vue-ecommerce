@@ -3,6 +3,14 @@ import Rating from './Rating.vue'
 const props = defineProps({
     product: Object
 })
+
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN', { 
+        style: 'currency', 
+        currency: 'VND' 
+    }).format(price)
+}
+
 </script>
 
 <template>
@@ -30,14 +38,13 @@ const props = defineProps({
             <p class="text-sm text-gray-500 mb-3 uppercase tracking-wide">
                 {{ product.product_name }}
             </p>
-
             <div class="flex items-center space-x-2 mb-4">
                 <span class="text-2xl font-bold text-red-600">
-                    {{ product.price - (product.price * product.discount) / 100 }}
+                    {{ formatPrice(product.price - (product.price * product.discount) / 100) }}
                 </span>
 
                 <span class="text-lg text-gray-400 line-through">
-                    {{ product.price }}
+                    {{ formatPrice(product.price) }}
                 </span>
 
                 <span class="bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full">
@@ -46,9 +53,12 @@ const props = defineProps({
             </div>
 
 
-            <div class="flex items-center space-x-2">
-                <Rating :rating="product.rating_average" />
+            <div class="flex items-center justify-between space-x-2">
+                <div class="flex items-center gap-2">
+                                    <Rating :rating="product.rating_average" />
                 <span class="text-sm text-gray-500">({{ product.reviews_count }} reviews)</span>
+                </div>
+                            <span class="text-sm font-semibold text-gray-500">{{ product.category.category_name }}</span>
             </div>
         </div>
     </div>

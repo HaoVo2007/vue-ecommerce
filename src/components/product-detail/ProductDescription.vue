@@ -51,7 +51,7 @@ const isInStock = () => {
             <div class="space-y-3 text-sm">
                 <div class="flex justify-between border-b pb-2">
                     <span class="text-gray-600">Trademark:</span>
-                    <span class="font-medium">Nike</span>
+                    <span class="font-medium">{{ product.category.category_name }}</span>
                 </div>
                 <div class="flex justify-between border-b pb-2">
                     <span class="text-gray-600">Model:</span>

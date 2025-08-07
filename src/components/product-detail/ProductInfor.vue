@@ -10,13 +10,19 @@ const selectSize = ref(null)
 const handleSelectSize = (size) => {
     selectSize.value = size
 }
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN', { 
+        style: 'currency', 
+        currency: 'VND' 
+    }).format(price)
+}
 </script>
 
 <template>
     <div class="space-y-6">
         <div>
             <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ product.product_name }}</h1>
-            <p class="text-gray-600">{{ product.product_name }}</p>
+            <p class="text-gray-600">CATEGORY - {{ product.category.category_name }}</p>
         </div>
 
         <div class="flex items-center space-x-2">
@@ -27,9 +33,8 @@ const handleSelectSize = (size) => {
         <!-- Price -->
         <div class="space-y-2">
             <div class="flex items-center space-x-3">
-                <span class="text-3xl font-bold text-red-600">{{ product.price - (product.price * product.discount) /
-                    100 }}</span>
-                <span class="text-xl text-gray-500 line-through">{{ product.price }}</span>
+                <span class="text-3xl font-bold text-red-600">{{ formatPrice(product.price - (product.price * product.discount) / 100) }}</span>
+                <span class="text-xl text-gray-500 line-through">{{ formatPrice(product.price) }}</span>
                 <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-sm font-medium">{{ product.discount }}%
                     OFF</span>
             </div>

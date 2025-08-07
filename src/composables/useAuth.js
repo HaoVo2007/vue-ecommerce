@@ -1,19 +1,36 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import axios from 'axios'
 import { ENV } from '@/config/env'
-import { useToast } from "vue-toastification";
+import { useToast } from "vue-toastification"
 
-const toast = useToast();
+const toast = useToast()
 
-const isLoggedIn = ref(!!localStorage.getItem("token"));
-const user = ref(null);
+const user = ref(null)
+const isLoggedIn = ref(false)
+
+// Đồng bộ hóa từ localStorage ngay khi load
+const syncFromLocalStorage = () => {
+    const token = localStorage.getItem('token')
+    const storedUser = localStorage.getItem('user')
+
+    isLoggedIn.value = !!token
+    user.value = storedUser ? JSON.parse(storedUser) : null
+}
+
+// Gọi ngay khi module được load
+syncFromLocalStorage()
+
+// Tự động cập nhật localStorage khi user thay đổi
+watch(user, (newVal) => {
+    if (newVal) {
+        localStorage.setItem('user', JSON.stringify(newVal))
+    } else {
+        localStorage.removeItem('user')
+    }
+})
 
 export const useAuth = () => {
-    const userInfo = computed(() => {
-        if (user.value) {
-            return user.value
-        }
-    })
+    const userInfo = computed(() => user.value)
 
     const login = async (credentials) => {
         try {
@@ -21,21 +38,12 @@ export const useAuth = () => {
             const data = response.data.data
 
             if (data.token) {
-                // Lưu token
                 localStorage.setItem('token', data.token)
-
-                // Lưu refresh token nếu có
                 if (data.refresh_token) {
                     localStorage.setItem('refresh_token', data.refresh_token)
                 }
 
-                // Lưu thông tin user
-                if (data) {
-                    localStorage.setItem('user', JSON.stringify(data))
-                    user.value = data
-                }
-
-                // Cập nhật state
+                user.value = data
                 isLoggedIn.value = true
 
                 return { success: true, data }
@@ -43,7 +51,7 @@ export const useAuth = () => {
                 return { success: false, message: 'No token received' }
             }
         } catch (error) {
-            toast.error('Login error:', error)
+            toast.error(`Login error: ${error.response?.data?.message || error.message || error.toString()}`)
             return {
                 success: false,
                 message: error.response?.data?.message || error.message
@@ -57,21 +65,12 @@ export const useAuth = () => {
             const data = response.data.data
 
             if (data.token) {
-                // Lưu token
                 localStorage.setItem('token', data.token)
-
-                // Lưu refresh token nếu có
                 if (data.refresh_token) {
                     localStorage.setItem('refresh_token', data.refresh_token)
                 }
 
-                // Lưu thông tin user
-                if (data.user) {
-                    localStorage.setItem('user', JSON.stringify(data.user))
-                    user.value = data.user
-                }
-
-                // Cập nhật state
+                user.value = data.user
                 isLoggedIn.value = true
 
                 return { success: true, data }
@@ -79,7 +78,7 @@ export const useAuth = () => {
                 return { success: false, message: 'No token received' }
             }
         } catch (error) {
-            toast.error('Registration error:', error)
+            toast.error(`Registration error: ${error.response?.data?.message || error.message || error.toString()}`)
             return {
                 success: false,
                 message: error.response?.data?.message || error.message
@@ -88,55 +87,44 @@ export const useAuth = () => {
     }
 
     const logout = async () => {
-        let token = localStorage.getItem('token')
-        if (!token) {
-            return { success: false, message: 'You are not logged in' }
-        }
+        const token = localStorage.getItem('token')
 
         try {
-            await axios.post(`${ENV.API_BASE_URL}/api/v1/user/logout`, {}, {
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
-                }
-            })
-
-            // Clear localStorage
-            localStorage.removeItem('token')
-            localStorage.removeItem('refresh_token')
-            localStorage.removeItem('user')
-
-            // Update state
-            isLoggedIn.value = false
-            user.value = null
-
-            return { success: true, message: 'Logout successful' }
-
+            if (token) {
+                await axios.post(`${ENV.API_BASE_URL}/api/v1/user/logout`, {}, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                })
+            }
         } catch (error) {
-            if (error.response?.status === 401) {
-                // Token expired, just clear localStorage
-                localStorage.removeItem('token')
-                localStorage.removeItem('refresh_token')
-                localStorage.removeItem('user')
-
-                isLoggedIn.value = false
-                user.value = null
-
-                return { success: true, message: 'Logout successful' }
-            } else {
+            // Nếu lỗi do token hết hạn cũng cho phép logout
+            if (error.response?.status !== 401) {
+                toast.error(`Logout failed: ${error.response?.data?.message || error.message || error.toString()}`)
                 return {
                     success: false,
                     message: error.response?.data?.message || error.message
                 }
             }
         }
+
+        // Dọn dẹp state và localStorage
+        localStorage.removeItem('token')
+        localStorage.removeItem('refresh_token')
+        localStorage.removeItem('user')
+
+        user.value = null
+        isLoggedIn.value = false
+
+        return { success: true, message: 'Logout successful' }
     }
 
     const refreshAccessToken = async () => {
         const refreshToken = localStorage.getItem('refresh_token')
         if (!refreshToken) {
-            toast.warn('No refresh token found')
-            logout()
+            toast.warning('No refresh token found')
+            await logout()
             return null
         }
 
@@ -149,23 +137,24 @@ export const useAuth = () => {
                 return newAccessToken
             } else {
                 toast.error('Failed to refresh token')
-                logout()
+                await logout()
                 return null
             }
         } catch (error) {
-            toast.error('Refresh token failed:', error.response?.data || error.message)
-            logout()
+            toast.error(`Refresh token failed: ${error.response?.data?.message || error.message || error.toString()}`)
+            await logout()
             return null
         }
     }
 
     return {
-        isLoggedIn,
         user,
+        isLoggedIn,
         userInfo,
         login,
         register,
         logout,
-        refreshAccessToken
+        refreshAccessToken,
+        syncFromLocalStorage,
     }
 }

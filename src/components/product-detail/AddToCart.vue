@@ -5,6 +5,8 @@ import axios from 'axios';
 import { ENV } from '@/config/env';
 import { useToast } from "vue-toastification";
 const user = JSON.parse(localStorage.getItem('user'))
+import { useCartStore } from '@/composables/cartStore'
+const cartStore = useCartStore()
 const toast = useToast();
 const props = defineProps({
     product: Object,
@@ -13,6 +15,13 @@ const props = defineProps({
 const loading = ref(false)
 const handleAddToCart = async () => {
     loading.value = true
+    if (!props.selectedSize?.size) {
+        toast.error('Please select a size')
+        setTimeout(() => {
+            loading.value = false
+        }, 1000)
+        return
+    }
     try {
         const response = await axios.post(`${ENV.API_BASE_URL}/api/v1/cart`, {
             product_id: props.product.id,
@@ -22,17 +31,19 @@ const handleAddToCart = async () => {
         })
 
         if (response.data?.status_code === 201) {
-            toast.success('Added to cart successfully!')
+            toast.success('Added to cart successfully')
+            await cartStore.getCartItems(user.id)
         } else {
-            toast.error('Failed to add to cart!')
+            toast.error('Failed to add to cart')
         }
     } catch (error) {
         console.error('Add to cart error:', error)
-        toast.error('Failed to add to cart.')
+        toast.error('Failed to add to cart: ' + error.message)
     } finally {
         loading.value = false
     }
 }
+
 </script>
 
 <template>

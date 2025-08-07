@@ -5,7 +5,7 @@ import FeaturedProduct from "../components/FeaturedProduct.vue";
 </script>
 
 <template>
-    <div class="p-10">
+    <div class="p-2 sm:p-20">
         <HeroSections />
     <FeaturedProduct title="Featured Products" label="Discover our top-rated soccer shoes trusted by professionals" type="product" />
     <Featured title="Why Choose Our Soccer Shoes?" label="Engineered for champions, crafted for comfort. Our soccer shoes combine cutting-edge technology with premium materials to deliver unmatched performance on the field." type="business" />

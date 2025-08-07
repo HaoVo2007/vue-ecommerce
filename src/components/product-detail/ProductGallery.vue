@@ -25,19 +25,19 @@ const handleImageClick = (image) => {
     <div class="space-y-4">
         <!-- Main Image -->
         <div class="p-8 rounded-t-lg shadow">
-            <img id="mainImage" :src="selectedImage" :alt="product.product_name" class="w-full h-125 object-cover">
+            <img id="mainImage" :src="selectedImage" :alt="product.product_name" class="w-full h-50 sm:h-120 object-cover">
         </div>
 
         <!-- Thumbnail Images -->
         <div class="flex space-x-3">
             <div class="border-1 hover:border-blue-500 thumbnail-active rounded-lg overflow-hidden cursor-pointer">
                 <img :src="product.main_image" :alt="product.product_name" @click="handleImageClick(product.main_image)"
-                    class="w-30 h-30 object-cover">
+                    class="w-30 h-20 sm:h-30 sm:w-30 object-cover">
             </div>
             <div v-for="image in product.sub_image" :key="image"
                 class="border-1 hover:border-blue-500 thumbnail-active rounded-lg overflow-hidden cursor-pointer">
                 <img :src="image.url" :alt="product.product_name" @click="handleImageClick(image.url)"
-                    class="w-30 h-30 object-cover">
+                    class="w-30 h-20 sm:h-30 sm:w-30 object-cover">
             </div>
         </div>
     </div>
