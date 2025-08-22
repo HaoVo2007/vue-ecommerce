@@ -49,7 +49,9 @@ const decreaseQuantity = async (item) => {
                 @decrementItem="decreaseQuantity"
                 @incrementItem="increaseQuantity"
                 />
-                <OrderSummary />
+                <OrderSummary
+                :cartItems="cartStore.items"
+                />
             </div>
         </div>
     </section>

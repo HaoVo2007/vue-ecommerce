@@ -38,6 +38,11 @@ const closeModal = () => {
     showModal.value = false
 }
 
+const closeCartDropdown = () => {
+    document.getElementById('myCartDropdown1').classList.remove('block')
+    document.getElementById('myCartDropdown1').classList.add('hidden')
+}
+
 const removeCartItem = async (item) => {
     if (userInfo.value?.id) {
         await cartStore.removeFromCart(userInfo.value.id, item.product_id)
@@ -274,7 +279,7 @@ watch(() => isLoggedIn.value, async (newIsLoggedIn) => {
                             </div>
 
                             <!-- Checkout Button -->
-                            <router-link to="/cart"
+                            <router-link to="/cart" @click="closeCartDropdown"
                                 class="inline-flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 Proceed to Checkout
                             </router-link>
@@ -283,7 +288,7 @@ watch(() => isLoggedIn.value, async (newIsLoggedIn) => {
                         <!-- Empty Cart Message -->
                         <div v-else class="text-center py-4">
                             <img class="mx-auto mb-4 w-1/2" src="/image/sections/empty-cart.png" alt="">
-                            <router-link to="/cart"
+                            <router-link to="/cart" @click="closeCartDropdown"
                                 class="inline-flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 Your Cart
                             </router-link>

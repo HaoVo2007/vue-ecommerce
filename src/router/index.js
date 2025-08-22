@@ -1,4 +1,5 @@
 import CartUser from '@/views/CartUser.vue'
+import Checkout from '@/views/Checkout.vue'
 import DetailProduct from '@/views/DetailProduct.vue'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
@@ -33,6 +34,11 @@ const router = createRouter({
       name: 'cart',
       component: CartUser,
     },
+    {
+      path: '/checkout',
+      name: 'checkout',
+      component: Checkout,
+    }
   ],
 })
 

@@ -63,7 +63,7 @@ const formatPrice = (price) => {
                             </button>
                         </div>
                         <div class="text-end md:order-4 md:w-32">
-                            <p class="text-base font-bold text-gray-900 dark:text-white">{{ formatPrice(item.price) }}
+                            <p class="text-base font-bold text-gray-900 dark:text-white">{{ formatPrice(item.total_price) }}
                             </p>
                         </div>
                     </div>

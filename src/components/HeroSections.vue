@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="w-full p-8 md:p-20">
+    <div class="w-full p-8 md:p-2">
         <div class="relative w-full h-80 md:h-120 bg-cover bg-center bg-no-repeat bg-football mb-4">
             <div class="absolute inset-0 bg-opacity-50"></div>
 

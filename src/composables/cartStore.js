@@ -9,8 +9,11 @@ export const useCartStore = defineStore('cart', {
   state: () => ({
     items: [],
     total: 0,
-    totalQuantity: 0
+    totalQuantity: 0,
+    discount: 0,
+    coupon: null
   }),
+  
   
   actions: {
     async getCartItems(userID) {
