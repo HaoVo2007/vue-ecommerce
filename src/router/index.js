@@ -4,6 +4,7 @@ import DetailProduct from '@/views/DetailProduct.vue'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
+import PaymentResult from '@/views/PaymentResult.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -38,7 +39,14 @@ const router = createRouter({
       path: '/checkout',
       name: 'checkout',
       component: Checkout,
-    }
+    },
+    { 
+      path: '/payment/success',
+      meta: { status: 'success' },
+      component: PaymentResult, 
+    },
+    { path: '/payment/failed', component: PaymentResult, meta: { status: 'failed' } },
+    { path: '/payment/cancelled', component: PaymentResult, meta: { status: 'cancelled' } },
   ],
 })
 
