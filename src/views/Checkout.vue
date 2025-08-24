@@ -2,13 +2,22 @@
 import InformationCheckout from '@/components/checkout/InformationCheckout.vue';
 import SummaryCheckout from '@/components/checkout/SummaryCheckout.vue';
 import { useCartStore } from '@/composables/cartStore'
+import { useToast } from 'vue-toastification'
 import { ENV } from '@/config/env'
 import axios from 'axios'
 import { ref } from 'vue'
 
 const cartStore = useCartStore()
-const formData = ref({})
 
+const toast = useToast();
+
+const formData = ref({
+    fullName: '',
+    phone: '',
+    email: '',
+    address: '',
+    paymentMethod: 'cod'
+})
 const getCurrentUser = () => {
     try {
         const userStr = localStorage.getItem('user')
@@ -21,29 +30,30 @@ const getCurrentUser = () => {
 const orderNow = async () => {
     const user = getCurrentUser()
     if (!user) {
-        alert("You need to login first")
+        toast.error("You need to login first")
         return
     }
 
     const { fullName, phone, email, address, paymentMethod } = formData.value
     if (!fullName || !phone || !address) {
-        alert("Please fill all required fields")
+        toast.error("Please fill all required fields")
         return
     }
 
     const payload = {
         user_id: user.id,
         name: fullName,
+        type: paymentMethod,
         phone,
         email,
         address,
-        coupon_code: cartStore.coupon ? cartStore.coupon.name : null,
+        coupon_code: cartStore.coupon ? cartStore.coupon.code_coupon : null,
     }
-    console.log(payload)
+
     try {
         if (paymentMethod === "cod") {
             const res = await axios.post(`${ENV.API_BASE_URL}/api/v1/order`, payload)
-            alert("Order created successfully: " + res.data.data.order_id)
+            toast.success("Order created successfully: " + res.data.data.order_id)
             window.location.href = "/payment/success"
         } else if (paymentMethod === "vnpay") {
             const resOrder = await axios.post(`${ENV.API_BASE_URL}/api/v1/order`, payload)
@@ -59,7 +69,7 @@ const orderNow = async () => {
         }
     } catch (e) {
         console.error(e)
-        alert("Order failed!")
+        toast.error("Order failed!")
     }
 }
 </script>
@@ -74,7 +84,7 @@ const orderNow = async () => {
             </div>
 
             <div class="grid lg:grid-cols-3 gap-8 ml-20 mr-20">
-                <InformationCheckout @updateForm="formData = $event" />
+                <InformationCheckout v-model="formData" />
                 <SummaryCheckout :cartItems="cartStore.items" :coupon="cartStore.coupon" @orderNow="orderNow" />
             </div>
         </div>

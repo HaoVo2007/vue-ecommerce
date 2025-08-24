@@ -1,18 +1,26 @@
 <script setup>
 import { reactive } from 'vue'
 import { watch } from 'vue'
-const form = reactive({
-    fullName: '',
-    phone: '',
-    email: '',
-    address: '',
-    paymentMethod: 'cod', 
+
+const props = defineProps({
+    modelValue: Object
 })
 
-const emit = defineEmits(['updateForm'])
+const emit = defineEmits(['update:modelValue'])
+
+const form = reactive({
+  fullName: '',
+  phone: '',
+  email: '',
+  address: '',
+  paymentMethod: 'cod',
+  ...props.modelValue,
+})
+
 watch(form, () => {
-    emit('updateForm', { ...form })
+    emit('update:modelValue', { ...form })
 }, { deep: true })
+
 </script>
 
 <template>

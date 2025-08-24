@@ -324,9 +324,9 @@ watch(() => isLoggedIn.value, async (newIsLoggedIn) => {
                                 <li><a href="#" title=""
                                         class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                                         My Account </a></li>
-                                <li><a href="#" title=""
+                                <li><router-link to="/my-orders" title=""
                                         class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                                        My Orders </a></li>
+                                        My Orders </router-link></li>
                                 <li><a href="#" title=""
                                         class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                                         Settings </a></li>

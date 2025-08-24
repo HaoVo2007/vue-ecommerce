@@ -113,7 +113,6 @@ export const useAuth = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('refresh_token')
         localStorage.removeItem('user')
-        localStorage.removeItem('coupon_code')
 
         user.value = null
         isLoggedIn.value = false

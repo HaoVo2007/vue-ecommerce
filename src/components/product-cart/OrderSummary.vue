@@ -49,13 +49,11 @@ const applyCoupon = async () => {
         if (json.status_code == 200) {
             cartStore.coupon = json.data
             cartStore.discount = json.data.discount
-            localStorage.setItem('coupon_code', couponCode.value)
             toast.success('Coupon applied successfully')
         }
     } catch (error) {
         cartStore.discount = 0
         cartStore.coupon = null
-        localStorage.removeItem('coupon_code')
         toast.error('Coupon is not valid or expired!')
     } finally {
         loading.value = false

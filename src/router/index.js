@@ -6,6 +6,7 @@ import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import PaymentResult from '@/views/PaymentResult.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import MyOrder from '@/views/MyOrder.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,8 +46,21 @@ const router = createRouter({
       meta: { status: 'success' },
       component: PaymentResult, 
     },
-    { path: '/payment/failed', component: PaymentResult, meta: { status: 'failed' } },
-    { path: '/payment/cancelled', component: PaymentResult, meta: { status: 'cancelled' } },
+    { 
+      path: '/payment/failed',
+      component: PaymentResult,
+      meta: { status: 'failed' },
+    },
+    { 
+      path: '/payment/cancelled', 
+      component: PaymentResult, 
+      meta: { status: 'cancelled' }, 
+    },
+    {
+      path: '/my-orders',
+      name: 'my-orders',
+      component: MyOrder,
+    }
   ],
 })
 
