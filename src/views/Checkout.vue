@@ -18,6 +18,7 @@ const formData = ref({
     address: '',
     paymentMethod: 'cod'
 })
+
 const getCurrentUser = () => {
     try {
         const userStr = localStorage.getItem('user')
@@ -44,12 +45,12 @@ const orderNow = async () => {
         user_id: user.id,
         name: fullName,
         type: paymentMethod,
-        phone,
-        email,
-        address,
+        phone: phone,
+        email: email,
+        address: address,
         coupon_code: cartStore.coupon ? cartStore.coupon.code_coupon : null,
     }
-
+    console.log(payload)
     try {
         if (paymentMethod === "cod") {
             const res = await axios.post(`${ENV.API_BASE_URL}/api/v1/order`, payload)
@@ -76,14 +77,14 @@ const orderNow = async () => {
 
 <template>
 
-    <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen py-8">
-        <div class="p-10">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">Order payment</h1>
-                <p class="text-gray-600">Please fill in the information to complete the order</p>
+    <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen py-4 sm:py-8">
+        <div class="px-4 sm:px-6 lg:px-10">
+            <div class="text-center mb-4 sm:mb-8">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 mb-1 sm:mb-2">Order payment</h1>
+                <p class="text-sm sm:text-base text-gray-600">Please fill in the information to complete the order</p>
             </div>
 
-            <div class="grid lg:grid-cols-3 gap-8 ml-20 mr-20">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
                 <InformationCheckout v-model="formData" />
                 <SummaryCheckout :cartItems="cartStore.items" :coupon="cartStore.coupon" @orderNow="orderNow" />
             </div>
