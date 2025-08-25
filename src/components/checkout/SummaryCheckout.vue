@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import SubmitButton from '../SubmitButton.vue'
 const props = defineProps({
     cartItems: {
         type: Array,
@@ -8,6 +9,10 @@ const props = defineProps({
     coupon: {
         type: Object,
         default: null, // ✅ mặc định là null nếu không có coupon
+    },
+    loading: {
+        type: Boolean,
+        default: false,
     },
 })
 
@@ -134,13 +139,14 @@ const total = computed(() => subtotal.value - discountAmount.value)
                 </div>
             </div>
 
-            <!-- Nút đặt hàng -->
-            <button id="placeOrder" @click="emit('orderNow')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 sm:py-4 rounded-lg font-semibold
+            <SubmitButton :loading="loading" text="Order now" @click="emit('orderNow')"
+                class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 sm:py-4 rounded-lg font-semibold
                 text-sm sm:text-lg hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200
                 shadow-lg active:scale-95">
-                <i class="fas fa-check-circle mr-1 sm:mr-2"></i>
-                <span class="text-sm sm:text-base">Order now</span>
-            </button>
+                <template #default>
+                    <i class="fas fa-check-circle mr-1 sm:mr-2"></i>
+                </template>
+            </SubmitButton>
 
             <p class="text-xs text-gray-500 text-center mt-3 sm:mt-4">
                 By placing an order, you agree to

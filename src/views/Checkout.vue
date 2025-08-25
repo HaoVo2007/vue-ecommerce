@@ -19,6 +19,8 @@ const formData = ref({
     paymentMethod: 'cod'
 })
 
+const loading = ref(false)
+
 const getCurrentUser = () => {
     try {
         const userStr = localStorage.getItem('user')
@@ -50,7 +52,7 @@ const orderNow = async () => {
         address: address,
         coupon_code: cartStore.coupon ? cartStore.coupon.code_coupon : null,
     }
-    console.log(payload)
+    loading.value = true
     try {
         if (paymentMethod === "cod") {
             const res = await axios.post(`${ENV.API_BASE_URL}/api/v1/order`, payload)
@@ -71,6 +73,8 @@ const orderNow = async () => {
     } catch (e) {
         console.error(e)
         toast.error("Order failed!")
+    } finally {
+        loading.value = false
     }
 }
 </script>
@@ -86,7 +90,7 @@ const orderNow = async () => {
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
                 <InformationCheckout v-model="formData" />
-                <SummaryCheckout :cartItems="cartStore.items" :coupon="cartStore.coupon" @orderNow="orderNow" />
+                <SummaryCheckout :cartItems="cartStore.items" :loading="loading" :coupon="cartStore.coupon" @orderNow="orderNow" />
             </div>
         </div>
     </body>
