@@ -18,17 +18,14 @@ const selectedBrand = ref('');
 const minPrice = ref('');
 const maxPrice = ref('');
 const selectedSize = ref('');
-const selectedSurface = ref('');
 const selectedRating = ref('');
 const sortBy = ref('name');
 
 const sizes = ref(['38', '39', '40', '41', '42', '43']);
-const surfaces = ref(['Turf', 'Firm Ground', 'Indoor']);
-const ratings = ref(['5', '4', '3', '2', '1']);
 
 const hasActiveFilters = computed(() =>
     !!(searchQuery.value || selectedBrand.value || minPrice.value || maxPrice.value ||
-        selectedSize.value || selectedSurface.value || selectedRating.value)
+        selectedSize.value || selectedRating.value)
 );
 
 let abortController;
@@ -56,7 +53,6 @@ const fetchProduct = async () => {
             max_price: maxPrice.value || undefined,
             category_id: selectedBrand.value || undefined,
             size: selectedSize.value || undefined,
-            surface: selectedSurface.value || undefined,
             rating: selectedRating.value || undefined,
             sort: sortBy.value || undefined,
         };
@@ -103,7 +99,7 @@ onMounted(() => {
 });
 
 watch(
-    [searchQuery, selectedBrand, minPrice, maxPrice, selectedSize, selectedSurface, selectedRating, sortBy],
+    [searchQuery, selectedBrand, minPrice, maxPrice, selectedSize, selectedRating, sortBy],
     () => debouncedFetch()
 );
 
@@ -114,10 +110,9 @@ const resetFilters = () => {
     minPrice.value = '';
     maxPrice.value = '';
     selectedSize.value = '';
-    selectedSurface.value = '';
     selectedRating.value = '';
     sortBy.value = 'name';
-    fetchProduct(); // gọi ngay 1 lần sau reset
+    fetchProduct(); 
 };
 </script>
 
@@ -154,11 +149,6 @@ const resetFilters = () => {
                     <BaseSelect label="Size" v-model="selectedSize">
                         <option value="">All sizes</option>
                         <option v-for="size in sizes" :key="size" :value="size">{{ size }}</option>
-                    </BaseSelect>
-
-                    <BaseSelect label="Surface" v-model="selectedSurface">
-                        <option value="">All surfaces</option>
-                        <option v-for="s in surfaces" :key="s" :value="s">{{ s }}</option>
                     </BaseSelect>
 
                     <BaseSelect label="Rating" v-model="selectedRating">
