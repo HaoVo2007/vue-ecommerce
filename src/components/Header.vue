@@ -137,10 +137,8 @@ watch(() => isLoggedIn.value, async (newIsLoggedIn) => {
                             </router-link>
                         </li>
                         <li class="shrink-0">
-                            <a href="#" title=""
-                                class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
-                                Best Sellers
-                            </a>
+                            <router-link to="/all-products"
+                                class="hover:text-primary-700 dark:hover:text-primary-500">All products</router-link>
                         </li>
                         <li class="shrink-0">
                             <a href="#" title=""
@@ -383,7 +381,8 @@ watch(() => isLoggedIn.value, async (newIsLoggedIn) => {
                             class="hover:text-primary-700 dark:hover:text-primary-500">Home</router-link>
                     </li>
                     <li>
-                        <a href="#" class="hover:text-primary-700 dark:hover:text-primary-500">Best Sellers</a>
+                        <router-link to="/all-products" class="hover:text-primary-700 dark:hover:text-primary-500">All
+                            products</router-link>
                     </li>
                     <li>
                         <a href="#" class="hover:text-primary-700 dark:hover:text-primary-500">Gift Ideas</a>

@@ -62,7 +62,7 @@ const orderNow = async () => {
             const resOrder = await axios.post(`${ENV.API_BASE_URL}/api/v1/order`, payload)
             const resPayment = await axios.post(`${ENV.API_BASE_URL}/api/v1/payment/vnpay`, {
                 "order_id": resOrder.data.data,
-                "return_url": `${ENV.API_BASE_URL}/api/v1/payment/vnpay/callback`,
+                "return_url": `${ENV.API_BASE_URL}/api/v1/payment/vnpay/callback/aaaa/`,
                 "bank_code": "",
                 "locale": "vn",
                 "order_info": "Test payment",

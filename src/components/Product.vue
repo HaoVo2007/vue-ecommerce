@@ -1,65 +1,82 @@
-<script setup>
-import Rating from './Rating.vue'
-const props = defineProps({
-    product: Object
-})
-
-const formatPrice = (price) => {
-    return new Intl.NumberFormat('vi-VN', { 
-        style: 'currency', 
-        currency: 'VND' 
-    }).format(price)
-}
-
-</script>
-
 <template>
-    <div
-        class="max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-        <div class="relative group">
-            <img :src="product.main_image" :alt="product.product_name" class="h-64 w-full object-cover" />
+    <div class="bg-white rounded-lg shadow flex flex-col p-4 gap-4 hover:shadow-md transition-all">
+        
+        <router-link :to="`/product/${product.id}`" class="relative w-full h-56 bg-gray-100 rounded-lg overflow-hidden">
+            <img :src="product.main_image" :alt="product.product_name" class="w-full h-full object-cover"
+                loading="lazy" />
+            <div v-if="Number(product.discount) > 0"
+                class="absolute top-2 right-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-sm">
+                -{{ product.discount }}%
+            </div>
+        </router-link>
 
-            <div
-                class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <router-link :to="`/product/${product.id}`">
-                    <button
-                        class="bg-white text-gray-800 font-semibold py-3 px-6 rounded-full hover:bg-gray-100 transform hover:scale-105 transition-all duration-200">
-                        View Details
-                    </button>
-                </router-link>
+        <div class="flex-1">
+            <div class="flex flex-col sm:flex-row justify-between gap-2">
+                <div class="flex-1 min-w-0">
+                    <h3 class="font-semibold text-gray-800 mb-1 line-clamp-2">
+                        <router-link :to="`/product/${product.id}`" class="hover:underline">
+                            {{ product.product_name }}
+                        </router-link>
+                    </h3>
+
+                    <p class="text-blue-500 font-medium text-sm mb-2">
+                        <span v-if="product.brand">{{ product.brand }} • </span>{{ product.category?.category_name }}
+                    </p>
+                </div>
+
+                <div class="text-right mt-2 sm:mt-0 flex-shrink-0">
+                    <div class="mb-2">
+                        <span class="text-lg font-bold text-gray-800 block">
+                            {{ formatPrice(finalPrice) }}
+                        </span>
+                        <span v-if="Number(product.discount) > 0" class="text-sm text-gray-400 line-through">
+                            {{ formatPrice(product.price) }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center">
+                <Rating :rating="product.rating_average" />
+                <span class="text-sm text-gray-600 ml-2">
+                    ({{ product.reviews_count }} reviews)
+                </span>
             </div>
         </div>
 
-        <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
+        <div v-if="hasSizes" class="flex items-center flex-wrap gap-2">
+            <span v-for="s in sizesToShow" :key="s.size"
+                class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded border border-gray-200"
+                :title="`Còn ${s.stock} sp`">
+                Size {{ s.size }}
+            </span>
 
-            </h3>
-
-            <p class="text-sm text-gray-500 mb-3 uppercase tracking-wide">
-                {{ product.product_name }}
-            </p>
-            <div class="flex items-center space-x-2 mb-4">
-                <span class="text-2xl font-bold text-red-600">
-                    {{ formatPrice(product.price - (product.price * product.discount) / 100) }}
-                </span>
-
-                <span class="text-lg text-gray-400 line-through">
-                    {{ formatPrice(product.price) }}
-                </span>
-
-                <span class="bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full">
-                    {{ product.discount }}% OFF
-                </span>
-            </div>
-
-
-            <div class="flex items-center justify-between space-x-2">
-                <div class="flex items-center gap-2">
-                                    <Rating :rating="product.rating_average" />
-                <span class="text-sm text-gray-500">({{ product.reviews_count }} reviews)</span>
-                </div>
-                            <span class="text-sm font-semibold text-gray-500">{{ product.category.category_name }}</span>
-            </div>
+            <span v-if="remainingSizesCount > 0"
+                class="text-xs bg-gray-50 text-gray-600 px-2 py-1 rounded border border-dashed border-gray-300"
+                :title="`Còn ${remainingSizesCount} size khác`">
+                +{{ remainingSizesCount }}
+            </span>
         </div>
     </div>
 </template>
+
+<script setup>
+import { computed } from 'vue'
+import Rating from './Rating.vue'
+const props = defineProps({
+    product: { type: Object, required: true },
+})
+
+const formatPrice = (price) =>
+    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(price) || 0)
+
+const finalPrice = computed(() => {
+    const price = Number(props.product?.price) || 0
+    const discount = Number(props.product?.discount) || 0
+    return price - (price * discount) / 100
+})
+
+const hasSizes = computed(() => Array.isArray(props.product?.sizes) && props.product.sizes.length > 0)
+const sizesToShow = computed(() => (props.product?.sizes || []).slice(0, 3))
+const remainingSizesCount = computed(() => Math.max((props.product?.sizes?.length || 0) - 3, 0))
+</script>

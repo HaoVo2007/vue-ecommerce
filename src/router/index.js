@@ -7,6 +7,7 @@ import Register from '@/views/Register.vue'
 import PaymentResult from '@/views/PaymentResult.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import MyOrder from '@/views/MyOrder.vue'
+import AllProduct from '@/views/AllProduct.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,6 +61,11 @@ const router = createRouter({
       path: '/my-orders',
       name: 'my-orders',
       component: MyOrder,
+    },
+    {
+      path: '/all-products',
+      name: 'all-products',
+      component: AllProduct,
     }
   ],
 })
