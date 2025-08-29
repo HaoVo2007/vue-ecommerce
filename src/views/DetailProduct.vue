@@ -9,7 +9,7 @@ import ProductGallery from '@/components/product-detail/ProductGallery.vue';
 import ProductInfor from '@/components/product-detail/ProductInfor.vue';
 import ProductDescription from '@/components/product-detail/ProductDescription.vue';
 import ProductReview from '@/components/product-detail/ProductReview.vue';
-
+import { useOverLoader } from '@/composables/useOverLoader';
 const productID = useRoute().params.id
 const product = ref({})
 const reviews = ref([])
@@ -17,6 +17,7 @@ const relatedProducts = ref([])
 const loading = ref(true)
 const toast = useToast();
 
+const { showApiLoader, hideLoader, showProgressLoader, updateProgress } = useOverLoader()
 const fetchProduct = async () => {
     try {
         const response = await axios.get(`${ENV.API_BASE_URL}/api/v1/product/${productID}`)
@@ -44,16 +45,27 @@ const fetchReviews = async () => {
     }
 }
 
-onMounted(() => {
-    fetchProduct()
-    fetchReviews()
+onMounted(async () => {
+    showApiLoader('')
+    try {
+        await Promise.all([
+            fetchProduct(),
+            fetchReviews(),
+        ])
+    } catch (error) {
+        toast.error('Có lỗi khi tải dữ liệu: ' + error.message)
+        hidelLoader()
+    } finally {
+        loading.value = false
+        hideLoader()
+    }
 })
 </script>
 
 <template>
     <div class="sm:px-50 sm:py-20 p-5">
         <div v-if="loading" class="text-center py-8">
-            <p>Loading...</p>
+
         </div>
         <div v-else>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
@@ -63,7 +75,6 @@ onMounted(() => {
             <ProductDescription :product="product" />
 
             <ProductReview @review:added="fetchReviews" :reviews="reviews" :product="product" />
-    
         </div>
     </div>
 </template>

@@ -43,6 +43,24 @@ const closeCartDropdown = () => {
     document.getElementById('myCartDropdown1').classList.add('hidden')
 }
 
+const closeUserDropdown = () => {
+    document.getElementById('userDropdown1').classList.remove('block')
+    document.getElementById('userDropdown1').classList.add('hidden')
+}
+
+const closeUserMobile = () => {
+    document.getElementById('ecommerce-navbar-menu-1').classList.remove('block')
+    document.getElementById('ecommerce-navbar-menu-1').classList.add('hidden')
+}
+
+// Function to close all modals and dropdowns
+const closeAllModalsAndDropdowns = () => {
+    showModal.value = false
+    closeCartDropdown()
+    closeUserDropdown()
+    closeUserMobile()
+}
+
 const removeCartItem = async (item) => {
     if (userInfo.value?.id) {
         await cartStore.removeFromCart(userInfo.value.id, item.product_id)
@@ -110,6 +128,10 @@ watch(() => isLoggedIn.value, async (newIsLoggedIn) => {
     } else {
         cartStore.clearCart()
     }
+})
+
+watch(() => router.currentRoute.value.path, () => {
+    closeAllModalsAndDropdowns()
 })
 
 </script>
@@ -335,7 +357,7 @@ watch(() => isLoggedIn.value, async (newIsLoggedIn) => {
                                         class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                                         Delivery Addresses </a></li>
                                 <li><a href="#" title=""
-                                        class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
+                                        class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-600">
                                         Billing Data </a></li>
                             </ul>
                         </template>
