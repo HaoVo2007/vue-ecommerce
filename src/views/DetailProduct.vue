@@ -60,6 +60,7 @@ onMounted(async () => {
         hideLoader()
     }
 })
+
 </script>
 
 <template>

@@ -7,7 +7,9 @@ import { ENV } from '@/config/env';
 import { useToast } from "vue-toastification";
 import Product from '@/components/Product.vue';
 import Skeleton from '@/components/Skeleton.vue';
+import { useOverLoader } from '@/composables/useOverLoader';
 
+const { showApiLoader, hideLoader, showProgressLoader, updateProgress } = useOverLoader()
 const products = ref([]);
 const categories = ref([]);
 const loading = ref(true);
@@ -93,10 +95,21 @@ const fetchCategories = async () => {
     }
 };
 
-onMounted(() => {
-    fetchCategories();
-    fetchProduct();
-});
+onMounted(async () => {
+    showApiLoader('')
+    try {
+        await Promise.all([
+            fetchCategories(),
+            fetchProduct(),
+        ])
+    } catch (error) {
+        toast.error('Có lỗi khi tải dữ liệu: ' + error.message)
+        hidelLoader()
+    } finally {
+        loading.value = false
+        hideLoader()
+    }
+})
 
 watch(
     [searchQuery, selectedBrand, minPrice, maxPrice, selectedSize, selectedRating, sortBy],
@@ -112,7 +125,7 @@ const resetFilters = () => {
     selectedSize.value = '';
     selectedRating.value = '';
     sortBy.value = 'name';
-    fetchProduct(); 
+    fetchProduct();
 };
 </script>
 

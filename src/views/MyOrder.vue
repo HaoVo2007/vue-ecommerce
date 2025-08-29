@@ -5,7 +5,9 @@ import axios from 'axios'
 import { ENV } from '@/config/env'
 import { useToast } from 'vue-toastification'
 import StatusBadge from '@/components/common/StatusBadge.vue'
+import { useOverLoader } from '@/composables/useOverLoader';
 
+const { showApiLoader, hideLoader, showProgressLoader, updateProgress } = useOverLoader()
 const toast = useToast()
 
 const getCurrentUser = () => {
@@ -78,11 +80,16 @@ const canReorder = computed(() => {
 
 onMounted(async () => {
   if (!user?.id) return
+  showApiLoader('')
   try {
     const res = await axios.get(`${ENV.API_BASE_URL}/api/v1/order?user_id=${user.id}`)
     myOrder.value = res.data?.data || []
+    hideLoader()
   } catch (error) {
     toast.error(error?.response?.data?.message || error.message)
+    hideLoader()
+  } finally {
+    hideLoader()
   }
 })
 
