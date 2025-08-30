@@ -64,7 +64,7 @@ const canReorder = computed(() => {
   const status = (orderDetail.value.status || '').toLowerCase()
   const payStatus = (orderDetail.value.payment?.status || '').toLowerCase()
   const method = (orderDetail.value.type || '').toLowerCase()
-  
+
   // Nếu có payment và payment bị failed hoặc cancelled
   if (orderDetail.value.payment && (payStatus === 'failed' || payStatus === 'cancelled')) {
     return true
@@ -126,7 +126,7 @@ async function orderAgain(orderId) {
       if (response.data.data.type === 'cod') {
         toast.success('Đặt lại đơn COD thành công!')
       } else if (response.data.data.type === 'vnpay') {
-        window.location.href = response.data.data.link 
+        window.location.href = response.data.data.link
       }
       // Refresh danh sách
       const res = await axios.get(`${ENV.API_BASE_URL}/api/v1/order?user_id=${user.id}`)
@@ -209,18 +209,18 @@ const payment = computed(() => orderDetail.value?.payment || null)
                 <div class="flex items-center space-x-2">
                   <StatusBadge :status="order.status" />
                   <!-- Badge phương thức thanh toán -->
-                  <span class="px-2 py-1 text-xs font-medium rounded-full"
-                        :class="{
-                          'bg-orange-100 text-orange-700': getPaymentMethod(order) === 'COD',
-                          'bg-blue-100 text-blue-700': getPaymentMethod(order) === 'VNPay',
-                          'bg-purple-100 text-purple-700': getPaymentMethod(order) === 'Stripe',
-                          'bg-gray-100 text-gray-700': !['COD', 'VNPay', 'Stripe'].includes(getPaymentMethod(order))
-                        }">
+                  <span class="px-2 py-1 text-xs font-medium rounded-full" :class="{
+                    'bg-orange-100 text-orange-700': getPaymentMethod(order) === 'COD',
+                    'bg-blue-100 text-blue-700': getPaymentMethod(order) === 'VNPay',
+                    'bg-purple-100 text-purple-700': getPaymentMethod(order) === 'Stripe',
+                    'bg-gray-100 text-gray-700': !['COD', 'VNPay', 'Stripe'].includes(getPaymentMethod(order))
+                  }">
                     {{ getPaymentMethod(order) }}
                   </span>
                 </div>
               </div>
-              <div class="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-6 text-xs sm:text-sm text-gray-600">
+              <div
+                class="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-6 text-xs sm:text-sm text-gray-600">
                 <span class="flex items-center">
                   <i class="far fa-calendar mr-1 sm:mr-2"></i>
                   <span class="truncate">{{ formatDate(order.created_at) }}</span>
@@ -277,7 +277,8 @@ const payment = computed(() => orderDetail.value?.payment || null)
                 </div>
                 <div>
                   <p class="text-xs sm:text-sm text-gray-600 mb-1">Order date</p>
-                  <p class="font-semibold text-gray-900 text-sm sm:text-base">{{ formatDate(orderDetail.created_at) }}</p>
+                  <p class="font-semibold text-gray-900 text-sm sm:text-base">{{ formatDate(orderDetail.created_at) }}
+                  </p>
                 </div>
                 <div>
                   <p class="text-xs sm:text-sm text-gray-600 mb-1">Status</p>
@@ -286,13 +287,12 @@ const payment = computed(() => orderDetail.value?.payment || null)
                 <!-- Phương thức thanh toán -->
                 <div>
                   <p class="text-xs sm:text-sm text-gray-600 mb-1">Payment Method</p>
-                  <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full"
-                        :class="{
-                          'bg-orange-100 text-orange-700': getPaymentMethod(orderDetail) === 'COD',
-                          'bg-blue-100 text-blue-700': getPaymentMethod(orderDetail) === 'VNPay',
-                          'bg-purple-100 text-purple-700': getPaymentMethod(orderDetail) === 'Stripe',
-                          'bg-gray-100 text-gray-700': !['COD', 'VNPay', 'Stripe'].includes(getPaymentMethod(orderDetail))
-                        }">
+                  <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full" :class="{
+                    'bg-orange-100 text-orange-700': getPaymentMethod(orderDetail) === 'COD',
+                    'bg-blue-100 text-blue-700': getPaymentMethod(orderDetail) === 'VNPay',
+                    'bg-purple-100 text-purple-700': getPaymentMethod(orderDetail) === 'Stripe',
+                    'bg-gray-100 text-gray-700': !['COD', 'VNPay', 'Stripe'].includes(getPaymentMethod(orderDetail))
+                  }">
                     {{ getPaymentMethod(orderDetail) }}
                   </span>
                 </div>
@@ -328,7 +328,8 @@ const payment = computed(() => orderDetail.value?.payment || null)
               <div class="space-y-3 sm:space-y-4 max-h-64 sm:max-h-80 overflow-y-auto">
                 <div v-for="it in orderItems" :key="`${it.product_id}-${it.size ?? ''}`"
                   class="flex items-start sm:items-center space-x-3 sm:space-x-4 p-3 sm:p-4 bg-white border border-gray-200 rounded-xl">
-                  <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-lg flex items-center justify-center text-sm text-gray-500 flex-shrink-0">
+                  <div
+                    class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-lg flex items-center justify-center text-sm text-gray-500 flex-shrink-0">
                     <img :src="it.product_image" alt="" class="w-10 h-10 sm:w-14 sm:h-14 object-cover rounded-lg">
                   </div>
                   <div class="flex-1 min-w-0">
@@ -336,7 +337,8 @@ const payment = computed(() => orderDetail.value?.payment || null)
                     <p class="text-xs sm:text-sm text-gray-600">
                       Size: <strong>{{ it.size || '—' }}</strong>
                     </p>
-                    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-x-6 sm:gap-y-1 mt-1 sm:mt-2 text-xs sm:text-sm">
+                    <div
+                      class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1 sm:gap-x-6 sm:gap-y-1 mt-1 sm:mt-2 text-xs sm:text-sm">
                       <span class="text-gray-600">Quantity: <strong>{{ it.quantity }}</strong></span>
                       <span class="text-gray-600">Price: <strong>{{ formatPrice(it.price) }}</strong></span>
                     </div>
@@ -360,7 +362,8 @@ const payment = computed(() => orderDetail.value?.payment || null)
                 <h4 class="text-base sm:text-lg font-semibold text-gray-900">Payment</h4>
                 <StatusBadge :status="payment?.status" />
               </div>
-              <div v-if="payment" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 text-xs sm:text-sm">
+              <div v-if="payment"
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 text-xs sm:text-sm">
                 <div>
                   <p class="text-gray-600">Method</p>
                   <p class="font-semibold text-gray-900 capitalize">{{ payment.payment_method || '—' }}</p>
@@ -397,7 +400,7 @@ const payment = computed(() => orderDetail.value?.payment || null)
                   {{ formatPrice(orderDetail.total_price) }}
                 </span>
               </div>
-              
+
               <!-- Nút Order Again -->
               <div v-if="canReorder" class="mt-4 sm:mt-6 flex justify-end">
                 <button @click="orderAgain(orderDetail.id)"
