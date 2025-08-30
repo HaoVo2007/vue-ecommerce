@@ -8,6 +8,7 @@ import PaymentResult from '@/views/PaymentResult.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import MyOrder from '@/views/MyOrder.vue'
 import AllProduct from '@/views/AllProduct.vue'
+import MyProfile from '@/views/MyProfile.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,20 +43,20 @@ const router = createRouter({
       name: 'checkout',
       component: Checkout,
     },
-    { 
+    {
       path: '/payment/success',
       meta: { status: 'success' },
-      component: PaymentResult, 
+      component: PaymentResult,
     },
-    { 
+    {
       path: '/payment/failed',
       component: PaymentResult,
       meta: { status: 'failed' },
     },
-    { 
-      path: '/payment/cancelled', 
-      component: PaymentResult, 
-      meta: { status: 'cancelled' }, 
+    {
+      path: '/payment/cancelled',
+      component: PaymentResult,
+      meta: { status: 'cancelled' },
     },
     {
       path: '/my-orders',
@@ -66,6 +67,11 @@ const router = createRouter({
       path: '/all-products',
       name: 'all-products',
       component: AllProduct,
+    },
+    {
+      path: '/my-profile',
+      name: 'my-profile',
+      component: MyProfile,
     }
   ],
 })

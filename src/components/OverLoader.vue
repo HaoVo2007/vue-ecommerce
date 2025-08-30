@@ -5,16 +5,8 @@
             leave-to-class="opacity-0">
             <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
                 @click="handleBackdropClick">
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 mx-4 max-w-md w-full">
+                <div class=" p-8 mx-4 max-w-md w-full">
                     <!-- Header -->
-                    <div class="text-center mb-6">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                            {{ title }}
-                        </h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            {{ message }}
-                        </p>
-                    </div>
 
                     <!-- Loading Animation Based on Type -->
                     <div class="mb-6 flex justify-center">
